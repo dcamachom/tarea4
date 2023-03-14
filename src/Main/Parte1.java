@@ -36,20 +36,36 @@ public class Parte1 {
         return null;
     }
 
-    public int[][] dijsktra(int [][] m){
-
-        return null;
+    //*Funcion para inicializar la lista con infinitos */
+    public float[] inicializarList(int size){
+        float[] list= new float[size];
+        for (int i=0; i<size;i++){
+            list[i]=Float.POSITIVE_INFINITY;
+        }
+        return list;
+    }
+    
+    //*Funciones para implementar el algortimo de Dikjstra */
+    public float[][] dijsktraGeneral(float [][] m){
+        float[][] cMin= new float [m[0].length] [m[0].length];
+        for (int i=0;i<m[0].length;i++){
+            float[] list= dijkstraFuenteUnica(m, i);
+            for (int j=0;j<list.length;j++){
+                cMin[i][j]=list[j];
+            }
+        }
+        return cMin;
     }
 
-    public int[][] BellmanFord(int [][] m){
-
-        return null;
+    public float[] dijkstraFuenteUnica (float [][] m, int f){
+        float[] list= inicializarList(m[0].length);
+        for(int j=0;j<m[0].length;j++){
+            if (list[j]>m[f][j]){
+                list[j]=m[f][j];
+            }
+        }
+        return list;
     }
-
-    public int[][] floyd(int[][]m){
-
-        return null;
-    } 
 
 
 }
