@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Parte1 {
@@ -24,16 +26,19 @@ public class Parte1 {
         int [][] res = new int[matriz.length][matriz.length];
         long tInicio = -1;
         long tFin = 0;
+        String alg="";
         switch(i){
             case 1:
                 tInicio = System.currentTimeMillis();
                 res = dijsktraGeneral(matriz);
                 tFin = System.currentTimeMillis();
+                alg="DIJSKTRA";
             break;
             case 2:
                 tInicio = System.currentTimeMillis();
                 res = floydWarschall(matriz);
                 tFin = System.currentTimeMillis();
+                alg="FLOYD-WARSHALL";
             break;
             case 3:
             break;
@@ -41,7 +46,7 @@ public class Parte1 {
                 System.out.println("Debe ingresar un numero entre 1 y 3.");
         }
         printMatriz(res);
-        System.out.println("\n--------------------------------------\ntiempo de ejecucion del algoritmo de DIJSKTRA: " 
+        System.out.println("\n--------------------------------------\ntiempo de ejecucion del algoritmo: " + alg +" es: "
                             + (tFin-tInicio) + " milisegundos\n--------------------------------------\n");
         input.close();
     }
@@ -94,15 +99,6 @@ public class Parte1 {
 
         return m;
     }
-
-    //*Funcion para inicializar la lista con infinitos */
-    public static int[] inicializarList(int size){
-        int[] list= new int[size];
-        for (int i=0; i<size;i++){
-            list[i]=Integer.MAX_VALUE;
-        }
-        return list;
-    }
     
     //*Funciones para implementar el algortimo de Dikjstra */
     public static int[][] dijsktraGeneral(int [][] m){
@@ -117,31 +113,27 @@ public class Parte1 {
     }
 
     public static int[] dijkstraFuenteUnica (int [][] m, int f){
-        int[] list= inicializarList(m[0].length);
-        int [] vUsados= new int[m[0].length];
-        vUsados[0]=f;
+        int[] list=new int[m[0].length];
+        //int [] vUsados= new int[m[0].length+1];
+        List<Integer> vUsados= new ArrayList<>();
+        vUsados.add(f);
         for(int j=0;j<m[0].length;j++){
-            if (list[j]>m[f][j] && m[f][j]!=-1){
-                list[j]=m[f][j];
-            }
+           list[j]=m[f][j];
         }
-        int cont=0;
-        int cont2=0;
-        while (cont2<m[0].length){
+        int s=vUsados.size();
+        while (vUsados.size()<=m[0].length){
             int w=f;
             for (int i=0;i<list.length;i++){
-                if (!contains(vUsados,list[i]) && ( w==f ||list[i]< list[w])){
+                if (!vUsados.contains(i) && ( w==f ||list[i]< list[w])){
                     w=i;
                 }
             }
-            cont+=1;
-            vUsados[cont2]=w;            
+            vUsados.add(w);            
             for (int i=0; i<m[0].length;i++){
-                if(!contains(vUsados, i) && m[w][i]!=Integer.MAX_VALUE){
+                if(!vUsados.contains(i) && m[w][i]!=Integer.MAX_VALUE){
                     list[i]= Math.min(list[i], list[w]+m[w][i]);
                 }
             }
-        cont2+=1;
         }
         return list;
     }
