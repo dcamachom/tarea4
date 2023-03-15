@@ -24,12 +24,23 @@ public class Parte1 {
             String ruta= input.nextLine();
             int[][] m= readInput(ruta);
             int [][] res = dijsktraGeneral(m);
+            printMatriz(res);
             break;
         }
 
         input.close();
     }
 
+    //funcion para imprimir una matriz cuadrada
+    public static void printMatriz(int[][]m){
+        for(int i=0;i<m[0].length;i++){
+            for (int j=0;j<m[0].length;j++){
+                System.out.println(m[i][j]);
+            }
+            System.out.println(); 
+        }
+    }
+    
     //función para leer la matriz de entrada
     public static int[][] readInput(String ruta) throws IOException{
         
@@ -81,12 +92,41 @@ public class Parte1 {
 
     public static int[] dijkstraFuenteUnica (int [][] m, int f){
         int[] list= inicializarList(m[0].length);
+        int [] vUsados= new int[m[0].length];
+        vUsados[0]=f;
         for(int j=0;j<m[0].length;j++){
-            if (list[j]>m[f][j] && m[f][j]!=1){
+            if (list[j]>m[f][j] && m[f][j]!=-1){
                 list[j]=m[f][j];
             }
         }
+        int cont=0;
+        int cont2=0;
+        while (cont2<m[0].length){
+            int w=f;
+            for (int i=0;i<list.length;i++){
+                if (!contains(vUsados,list[i]) && ( w==f ||list[i]< list[w])){
+                    w=i;
+                }
+            }
+            cont+=1;
+            vUsados[cont2]=w;            
+            for (int i=0; i<m[0].length;i++){
+                if(!contains(vUsados, i) && m[w][i]!=10000000){
+                    list[i]= Math.min(list[i], list[w]+m[w][i]);
+                }
+            }
+        cont2+=1;
+        }
         return list;
+    }
+
+    public static boolean contains (int[] list, int obj){
+        for (int i=0;i<list.length;i++){
+            if (list[i]==obj){
+                return true;
+            }
+        }
+        return false;
     }
 
 
