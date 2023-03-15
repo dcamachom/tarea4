@@ -120,7 +120,6 @@ public class Parte1 {
         for(int j=0;j<m[0].length;j++){
            list[j]=m[f][j];
         }
-        int s=vUsados.size();
         while (vUsados.size()<=m[0].length){
             int w=f;
             for (int i=0;i<list.length;i++){
@@ -137,16 +136,6 @@ public class Parte1 {
         }
         return list;
     }
-
-    public static boolean contains (int[] list, int obj){
-        for (int i=0;i<list.length;i++){
-            if (list[i]==obj){
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     //-------------------------------------------------------------------------
     // ALGORITMO DE Floyd-Warschall
