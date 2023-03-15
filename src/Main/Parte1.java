@@ -19,29 +19,31 @@ public class Parte1 {
 
         switch(i){
             case 1:
-            input= new Scanner(System.in);
+            // input= new Scanner(System.in);
             System.out.println("Ingrese la ruta del archivo txt que contiene la matriz");
             String ruta= input.nextLine();
-            int m[][];
-            m=readInput(ruta);
-            int [][] res;
-            res=dijsktraGeneral(m);
+            int[][] m= readInput(ruta);
+            int [][] res = dijsktraGeneral(m);
             break;
         }
+
+        input.close();
     }
 
     //función para leer la matriz de entrada
     public static int[][] readInput(String ruta) throws IOException{
+        
+        int [][] m = new int[0][0];
         try {
-            int [][] m;
+            
             BufferedReader br= new BufferedReader(new FileReader(ruta));
-            String linea = br.readLine();
-            String [] f=linea.split(" ");
+            String linea = br.readLine().trim();
+            String [] f=linea.split("\t");
 			int longitud = f.length;
 			m = new int[longitud][longitud];
             int fila=0;
             while (linea!=null){
-                f=linea.split("     ");
+                f=linea.split("\t");
                 for (int i=0; i<f.length;i++){
                     m[fila][i]=Integer.parseInt(f[i]);
                 }
@@ -53,7 +55,7 @@ public class Parte1 {
             System.out.println("No se encuenta el archivo");
             e.printStackTrace();
         }
-        return null;
+        return m;
     }
 
     //*Funcion para inicializar la lista con infinitos */
