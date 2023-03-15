@@ -4,24 +4,44 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Parte1 {
     
-    static public void main(String [] args){
-        
+    static public void main(String [] args) throws IOException{
+
+        System.out.println("Ingrese el algoritmo que desea usar");
+        Scanner input= new Scanner(System.in);
+        System.out.println("1. DIJSKTRA");
+
+        String line= input.nextLine();
+        int i= Integer.parseInt(line);
+
+        switch(i){
+            case 1:
+            input= new Scanner(System.in);
+            System.out.println("Ingrese la ruta del archivo txt que contiene la matriz");
+            String ruta= input.nextLine();
+            int m[][];
+            m=readInput(ruta);
+            int [][] res;
+            res=dijsktraGeneral(m);
+            break;
+        }
     }
 
     //función para leer la matriz de entrada
-    public int[][] readInput(String ruta) throws IOException{
+    public static int[][] readInput(String ruta) throws IOException{
         try {
             int [][] m;
             BufferedReader br= new BufferedReader(new FileReader(ruta));
             String linea = br.readLine();
-			int longitud = Integer.parseInt(linea);
+            String [] f=linea.split(" ");
+			int longitud = f.length;
 			m = new int[longitud][longitud];
             int fila=0;
             while (linea!=null){
-                String[] f=linea.split(" ");
+                f=linea.split("     ");
                 for (int i=0; i<f.length;i++){
                     m[fila][i]=Integer.parseInt(f[i]);
                 }
@@ -37,19 +57,19 @@ public class Parte1 {
     }
 
     //*Funcion para inicializar la lista con infinitos */
-    public float[] inicializarList(int size){
-        float[] list= new float[size];
+    public static int[] inicializarList(int size){
+        int[] list= new int[size];
         for (int i=0; i<size;i++){
-            list[i]=Float.POSITIVE_INFINITY;
+            list[i]=10000000;
         }
         return list;
     }
     
     //*Funciones para implementar el algortimo de Dikjstra */
-    public float[][] dijsktraGeneral(float [][] m){
-        float[][] cMin= new float [m[0].length] [m[0].length];
+    public static int[][] dijsktraGeneral(int [][] m){
+        int[][] cMin= new int [m[0].length] [m[0].length];
         for (int i=0;i<m[0].length;i++){
-            float[] list= dijkstraFuenteUnica(m, i);
+            int[] list= dijkstraFuenteUnica(m, i);
             for (int j=0;j<list.length;j++){
                 cMin[i][j]=list[j];
             }
@@ -57,10 +77,10 @@ public class Parte1 {
         return cMin;
     }
 
-    public float[] dijkstraFuenteUnica (float [][] m, int f){
-        float[] list= inicializarList(m[0].length);
+    public static int[] dijkstraFuenteUnica (int [][] m, int f){
+        int[] list= inicializarList(m[0].length);
         for(int j=0;j<m[0].length;j++){
-            if (list[j]>m[f][j]){
+            if (list[j]>m[f][j] && m[f][j]!=1){
                 list[j]=m[f][j];
             }
         }
