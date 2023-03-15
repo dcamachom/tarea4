@@ -99,7 +99,7 @@ public class Parte1 {
     public static int[] inicializarList(int size){
         int[] list= new int[size];
         for (int i=0; i<size;i++){
-            list[i]=10000000;
+            list[i]=Integer.MAX_VALUE;
         }
         return list;
     }
@@ -137,7 +137,7 @@ public class Parte1 {
             cont+=1;
             vUsados[cont2]=w;            
             for (int i=0; i<m[0].length;i++){
-                if(!contains(vUsados, i) && m[w][i]!=10000000){
+                if(!contains(vUsados, i) && m[w][i]!=Integer.MAX_VALUE){
                     list[i]= Math.min(list[i], list[w]+m[w][i]);
                 }
             }
