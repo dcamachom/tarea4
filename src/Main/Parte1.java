@@ -34,10 +34,11 @@ public class Parte1 {
     //funcion para imprimir una matriz cuadrada
     public static void printMatriz(int[][]m){
         for(int i=0;i<m[0].length;i++){
+            System.out.println("Fuente:" +i); 
             for (int j=0;j<m[0].length;j++){
                 System.out.println(m[i][j]);
             }
-            System.out.println(); 
+            
         }
     }
     
