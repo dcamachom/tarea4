@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.lang.model.util.ElementScanner14;
+
 public class Programa {
     
     public static void main(String [] args) throws IOException{
@@ -40,6 +42,7 @@ public class Programa {
             int [][] res = new int[matriz.length][matriz.length]; //formato de respuesta para la parte 1.
             // List<Integer> rta2 = new ArrayList<Integer>(); //formato de respuesta para la parte 2.
             Integer[] rta2 = new Integer[matriz.length];
+            boolean rta3=false;
             long tInicio = -1;
             long tFin = 0;
             String alg="";
@@ -58,7 +61,7 @@ public class Programa {
                 break;
                 case 3:
                     tInicio =  System.currentTimeMillis();
-                    // res = NombreMetodo();
+                    res = bellmanFord(matriz);
                     tFin =  System.currentTimeMillis();
                     alg = "BELLMAN-FORD";
                 break;
@@ -70,9 +73,10 @@ public class Programa {
                 break;
                 case 5:
                     tInicio =  System.currentTimeMillis();
-                    // rta2 = nombreMetodo(); 
+                    rta3 = cycle(matriz); 
                     tFin =  System.currentTimeMillis();
                     alg = "DFS para determinar si existen ciclos";
+                    
                 break;
                 default:
                     System.out.println("Debe seleccionar un numero entre 1 y 5.");
@@ -84,11 +88,19 @@ public class Programa {
                 System.out.println("\n--------------------------------------\ntiempo de ejecucion del algoritmo: " + alg +" es: "
                                     + (tFin-tInicio) + " milisegundos\n--------------------------------------\n");
             }
-            else {  //formato de impresion para la parte 2.
+            else if (i==4) {  //formato de impresion para la parte 2.
                 printList(rta2, Collections.max(Arrays.asList(rta2)));
                 System.out.println("\n--------------------------------------\ntiempo de ejecucion del algoritmo: " + alg +" es: "
                                     + (tFin-tInicio) + " milisegundos\n--------------------------------------\n");
             } 
+            else{
+                if (rta3)
+                    System.out.println("El grafo tiene al menos un ciclo");
+                else
+                    System.out.println("El grafo no tiene ciclos");
+                System.out.println("\n--------------------------------------\ntiempo de ejecucion del algoritmo: " + alg +" es: "
+                                    + (tFin-tInicio) + " milisegundos\n--------------------------------------\n");
+            }
         }
         input.close();
     }
@@ -234,6 +246,31 @@ public class Programa {
 
     }
 
+
+    //-------------------------------------------------------------------------
+    // ALGORITMO DE BELLMAN FORD (falta tomar en cuenta los caminos)
+    //-------------------------------------------------------------------------
+    public static int[][] bellmanFord(int[][] matrix){
+        int[][] res= new int[matrix.length][matrix[0].length];
+    
+            for (int i=0;i<matrix.length;i++){
+                for (int j=0;j<matrix[0].length;j++){
+                    if (i==j)
+                        res[i][j]=0;
+                    else
+                        res[i][j]=Integer.MAX_VALUE;
+                }
+            }
+    
+            for (int i=0;i<matrix.length;i++){
+                for (int j=0;j<matrix[0].length;j++){
+                    if (matrix[i][j] != -1)
+                        res[i][j]= Math.min(matrix[i][j],res[i][j]);
+                }
+            }
+        return res;
+     }
+
     //-------------------------------------------------------------------------
     // --------------------------PARTE 2 Y 3-----------------------------------
     //-------------------------------------------------------------------------
@@ -287,6 +324,33 @@ public class Programa {
             }
         }
     }
-   
+
+    //-------------------------------------------------------------------------
+    // ALGORITMO DE DFS PARA SABER SI EXISTEN CICLOS
+    //-------------------------------------------------------------------------
+    public static boolean cycle_aux(int[][] matrix, ArrayList<Integer>vistos,int i){
+        boolean tmp=false;
+        vistos.add(i);
+        int j=0;
+        while (j<matrix[0].length && !tmp){
+            if (vistos.contains(j) && matrix[i][j]!=-1)
+                tmp= true;
+
+            else if(!vistos.contains(j) && matrix[i][j]!=-1)
+                tmp= tmp || cycle_aux(matrix,vistos,j);
+        }
+        return tmp;
+    }
+
+    public static boolean cycle(int[][] matrix){
+        boolean res= false;
+        int i=0;
+        ArrayList<Integer> list= new ArrayList<>();
+        while(!res && i<matrix.length){
+            res= cycle_aux(matrix,list,i);
+            i++;
+        }
+        return res;
+    }
 
 }
