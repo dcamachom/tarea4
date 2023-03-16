@@ -250,24 +250,32 @@ public class Programa {
     //-------------------------------------------------------------------------
     // ALGORITMO DE BELLMAN FORD (falta tomar en cuenta los caminos)
     //-------------------------------------------------------------------------
-    public static int[][] bellmanFord(int[][] matrix){
-        int[][] res= new int[matrix.length][matrix[0].length];
-    
-            for (int i=0;i<matrix.length;i++){
-                for (int j=0;j<matrix[0].length;j++){
-                    if (i==j)
-                        res[i][j]=0;
-                    else
-                        res[i][j]=Integer.MAX_VALUE;
-                }
+    public static int[][] bellmanFord(int[][] m){
+        int [][] cMin = new int [m[0].length][m[0].length];
+        for (int i=0; i<m[0].length;i++){
+            int [] list= bellmanFordFuenteUnica(m, i);
+            for (int j=0; j<list.length;j++){
+                cMin[i][j]=list[j];
             }
-    
-            for (int i=0;i<matrix.length;i++){
-                for (int j=0;j<matrix[0].length;j++){
-                    if (matrix[i][j] != -1)
-                        res[i][j]= Math.min(matrix[i][j],res[i][j]);
-                }
+        }
+        return cMin;
+     }
+
+     public static int [] bellmanFordFuenteUnica (int [][] m, int f){
+        int [] res= new int [m[0].length];
+        for (int i=0;i<m.length;i++){
+            if (i==f){
+                res[i]=0;
+            } else{
+                res[i]=Integer.MAX_VALUE;
             }
+        }
+
+        for (int i=0;i<res.length-1;i++){
+            for (int j=0;j<m[0].length;j++){
+                res[i]=Math.min(res[i], res[i]+m[i][j]);
+            }
+        }
         return res;
      }
 
