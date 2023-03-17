@@ -342,10 +342,10 @@ public class Programa {
         vistos.add(i);
         int j=0;
         while (j<matrix[0].length && !tmp){
-            if (vistos.contains(j) && matrix[i][j]!=-1)
+            if (vistos.contains(j) && matrix[i][j]!=Integer.MAX_VALUE)
                 tmp= true;
 
-            else if(!vistos.contains(j) && matrix[i][j]!=-1)
+            else if(!vistos.contains(j) && matrix[i][j]!=Integer.MAX_VALUE)
                 tmp= tmp || cycle_aux(matrix,vistos,j);
         }
         return tmp;
