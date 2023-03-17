@@ -15,3 +15,5 @@ Corra el archivo "Programa.java".Este le mostrara un menu de opciones en la cons
 Luego el programa que haya escogido va a correr y le mostrará en la consola la respuesta correspondiente. En la parte 1 le mostrará la matriz de costos mínimos. En la parte 2 los componentes conectados y en la parte 3 si existe o no un ciclo en el grafo de entrada.
 
 Por último, para salir del programa solo debe oprimir la tecla Enter.
+
+Adicionalmente, en la carpeta 'docs' está la matriz con los tiempos de ejecución para los 3 algoritmos de la parte 1.
