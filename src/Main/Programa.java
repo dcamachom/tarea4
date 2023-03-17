@@ -11,8 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner14;
-
 public class Programa {
     
     public static void main(String [] args) throws IOException{
@@ -21,7 +19,7 @@ public class Programa {
         Scanner input= new Scanner(System.in);
 
         while(!salir){
-            System.out.println("Ingrese el algoritmo que desea usar. para salir oprima Enter");
+            System.out.println("Ingrese el algoritmo que desea usar. Para salir oprima Enter");
             System.out.println("1. DIJSKTRA");
             System.out.println("2. FLOYD-WARSHALL");
             System.out.println("3. BELLMAN-FORD");
@@ -40,8 +38,7 @@ public class Programa {
 
             int[][] matriz= readInput(ruta);
             int [][] res = new int[matriz.length][matriz.length]; //formato de respuesta para la parte 1.
-            // List<Integer> rta2 = new ArrayList<Integer>(); //formato de respuesta para la parte 2.
-            Integer[] rta2 = new Integer[matriz.length];
+            Integer[] rta2 = new Integer[matriz.length]; //formato de respuesta para la parte 2.
             boolean rta3=false;
             long tInicio = -1;
             long tFin = 0;
@@ -158,12 +155,17 @@ public class Programa {
             while (linea!=null){
                 f=linea.split("\t");
                 for (int i=0; i<f.length;i++){
-
-                    if(Integer.parseInt(f[i])==-1){
-                        m[fila][i]= Integer.MAX_VALUE;
+                    
+                    try{
+                        if(Integer.parseInt(f[i])==-1){
+                            m[fila][i]= Integer.MAX_VALUE;
+                        }
+                        else{
+                            m[fila][i]=Integer.parseInt(f[i]);
+                        }
                     }
-                    else{
-                        m[fila][i]=Integer.parseInt(f[i]);
+                    catch(NumberFormatException e){
+
                     }
                 }
                 fila++;
@@ -195,7 +197,6 @@ public class Programa {
 
     public static int[] dijkstraFuenteUnica (int [][] m, int f){
         int[] list=new int[m[0].length];
-        //int [] vUsados= new int[m[0].length+1];
         List<Integer> vUsados= new ArrayList<>();
         vUsados.add(f);
         for(int j=0;j<m[0].length;j++){
@@ -248,7 +249,7 @@ public class Programa {
 
 
     //-------------------------------------------------------------------------
-    // ALGORITMO DE BELLMAN FORD (falta tomar en cuenta los caminos)
+    // ALGORITMO DE BELLMAN FORD
     //-------------------------------------------------------------------------
     public static int[][] bellmanFord(int[][] m){
         int [][] cMin = new int [m.length][m.length];
@@ -304,14 +305,14 @@ public class Programa {
             if(rta[i] != -1) //ya esta marcado.
                 continue;
             else{
-                dfs(i,rta,cont,matrix);
+                bfs(i,rta,cont,matrix);
                 cont ++;
             }
         }
         return rta;
     }
 
-    public static void dfs(int v, Integer[] marcados, int cont, int[][] matrix){
+    public static void bfs(int v, Integer[] marcados, int cont, int[][] matrix){
 
         LinkedList<Integer> cola = new LinkedList<>();
 
