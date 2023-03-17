@@ -251,7 +251,7 @@ public class Programa {
     // ALGORITMO DE BELLMAN FORD (falta tomar en cuenta los caminos)
     //-------------------------------------------------------------------------
     public static int[][] bellmanFord(int[][] m){
-        int [][] cMin = new int [m[0].length][m[0].length];
+        int [][] cMin = new int [m.length][m.length];
         for (int i=0; i<m[0].length;i++){
             int [] list= bellmanFordFuenteUnica(m, i);
             for (int j=0; j<list.length;j++){
@@ -262,18 +262,19 @@ public class Programa {
      }
 
      public static int [] bellmanFordFuenteUnica (int [][] m, int f){
-        int [] res= new int [m[0].length];
+        int [] res= new int [m.length];
+        int s=m.length;
         for (int i=0;i<m.length;i++){
-            if (i==f){
-                res[i]=0;
-            } else{
-                res[i]=Integer.MAX_VALUE;
-            }
+            res[i]=Integer.MAX_VALUE;
         }
-
-        for (int i=0;i<res.length-1;i++){
-            for (int j=0;j<m[0].length;j++){
-                res[i]=Math.min(res[i], res[i]+m[i][j]);
+        res[f]=0;
+        for (int i=0;i<m.length-1;i++){
+            for (int u=0;u<m.length;u++){
+                for (int v=0;v<m.length;v++){
+                    if ((m[u][v] != Integer.MAX_VALUE && res[u] != Integer.MAX_VALUE)){
+                        res[v]=Math.min(res[v], res[u]+m[u][v]);
+                    }  
+                }
             }
         }
         return res;
