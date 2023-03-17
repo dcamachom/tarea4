@@ -4,7 +4,7 @@
 ## Integrantes: 
 1. Daniela Camacho - 202110974 - d.camachom
 2. Juan Andres Jaramillo P. - 201821305 - ja.jaramillop
-3. Yann Chové - - 202316916 - 
+3. Yann Chové - - 202316916 - y.chove
 
 ## Funcionamiento del programa:
 
