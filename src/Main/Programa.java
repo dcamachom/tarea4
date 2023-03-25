@@ -122,16 +122,17 @@ public class Programa {
 
     public static void printList(Integer[] lista, int num){
 
-        System.out.println();
-        System.out.print("{");
+        System.out.print("\n{");
         for (int i = 1; i <= num; i++) {
             System.out.print("{");
             for (int j = 0; j< lista.length; j++) {
                 if(lista[j] == i){
-                    System.out.print(j + ",");
+                    System.out.print(j+ ",");
                 }
             }
-            System.out.print("},");
+            System.out.print("}");
+            if(i!= num)
+                System.out.print(",");
         }
         System.out.print("}");
     }
@@ -300,7 +301,7 @@ public class Programa {
         }
         int cont =1;
 
-        //como es un grafo no dirigido solo se tiene que recorrer la mitad triangular de la matriz
+        
         for (int i = 0; i < matrix.length; i++) {
             if(rta[i] != -1) //ya esta marcado.
                 continue;
@@ -322,8 +323,7 @@ public class Programa {
 
         while(cola.size() != 0){
             int adj = cola.poll();
-            //recorre los adjacentes desde la matiz triangular superior.
-            for (int i = adj+1; i < marcados.length; i++) {
+            for (int i = 0; i < marcados.length; i++) {
                 if(matrix[adj][i] < Integer.MAX_VALUE){
                     
                     if(marcados[i] ==-1){
