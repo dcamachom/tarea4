@@ -92,9 +92,9 @@ public class Programa {
             } 
             else{
                 if (rta3)
-                    System.out.println("El grafo tiene al menos un ciclo");
+                    System.out.println("\nEl grafo tiene al menos un ciclo");
                 else
-                    System.out.println("El grafo no tiene ciclos");
+                    System.out.println("\nEl grafo no tiene ciclos");
                 System.out.println("\n--------------------------------------\ntiempo de ejecucion del algoritmo: " + alg +" es: "
                                     + (tFin-tInicio) + " milisegundos\n--------------------------------------\n");
             }
@@ -338,26 +338,32 @@ public class Programa {
     //-------------------------------------------------------------------------
     // ALGORITMO DE DFS PARA SABER SI EXISTEN CICLOS
     //-------------------------------------------------------------------------
-    public static boolean cycle_aux(int[][] matrix, ArrayList<Integer>vistos,int i){
-        boolean tmp=false;
+    public static boolean cycle_aux(int[][] matrix, ArrayList<Integer>vistos,ArrayList<Integer> pila,int i){
         vistos.add(i);
+        pila.add(i);
+        boolean tmp=false;
         int j=0;
         while (j<matrix[0].length && !tmp){
-            if (vistos.contains(j) && matrix[i][j]!=Integer.MAX_VALUE)
+            if (vistos.contains(j) && matrix[i][j]!=Integer.MAX_VALUE && pila.contains(j) && j!=i)
                 tmp= true;
 
-            else if(!vistos.contains(j) && matrix[i][j]!=Integer.MAX_VALUE)
-                tmp= tmp || cycle_aux(matrix,vistos,j);
+            else if(!vistos.contains(j) && matrix[i][j]!=Integer.MAX_VALUE){
+                tmp= tmp || cycle_aux(matrix,vistos,pila,j);
+            }
+            j++;
+            
         }
+        pila.remove(pila.size()-1);
         return tmp;
     }
 
     public static boolean cycle(int[][] matrix){
         boolean res= false;
         int i=0;
+        ArrayList<Integer> pila= new ArrayList<>();
         ArrayList<Integer> list= new ArrayList<>();
         while(!res && i<matrix.length){
-            res= cycle_aux(matrix,list,i);
+            res= cycle_aux(matrix,list,pila,i);
             i++;
         }
         return res;
